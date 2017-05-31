@@ -1,0 +1,124 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 31, 2017 at 10:49 AM
+-- Server version: 5.5.32-log
+-- PHP Version: 5.6.12
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `fordeezer`
+--
+CREATE DATABASE `fordeezer` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `fordeezer`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favorite_user_tracks`
+--
+
+CREATE TABLE IF NOT EXISTS `favorite_user_tracks` (
+  `user_id` int(10) unsigned NOT NULL,
+  `track_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`,`track_id`),
+  KEY `track_id` (`track_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `favorite_user_tracks`
+--
+
+INSERT INTO `favorite_user_tracks` (`user_id`, `track_id`) VALUES
+(1, 2),
+(2, 2),
+(1, 4),
+(2, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `track`
+--
+
+CREATE TABLE IF NOT EXISTS `track` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `track`
+--
+
+INSERT INTO `track` (`id`, `name`) VALUES
+(1, 'Hyacinth House'),
+(2, 'L''America'),
+(3, 'Ship of Fools'),
+(4, 'We Could Be So Good Together');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `track__meta`
+--
+
+CREATE TABLE IF NOT EXISTS `track__meta` (
+  `track_id` int(10) unsigned NOT NULL,
+  `meta_name` varchar(8) NOT NULL,
+  `meta_value` varchar(255) NOT NULL,
+  PRIMARY KEY (`track_id`,`meta_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `track__meta`
+--
+
+INSERT INTO `track__meta` (`track_id`, `meta_name`, `meta_value`) VALUES
+(1, 'duration', '678'),
+(2, 'duration', '789'),
+(3, 'duration', '146'),
+(4, 'duration', '326');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`) VALUES
+(1, 'Lowko', 'lowko@hello.com'),
+(2, 'jeanne', 'jeanne@d''arc.com'),
+(3, 'Allende', 'allende@chillie.com');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `favorite_user_tracks`
+--
+ALTER TABLE `favorite_user_tracks`
+  ADD CONSTRAINT `favorite_user_tracks_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `track` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `favorite_user_tracks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `track__meta`
+--
+ALTER TABLE `track__meta`
+  ADD CONSTRAINT `track__meta_ibfk_2` FOREIGN KEY (`track_id`) REFERENCES `track` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
